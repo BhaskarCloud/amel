@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 public class pgConversation 
 {
 	public static By EntryPointinputText = By.xpath("//textarea[@class='ChatInput__input']");
+	public static By EntryPointTimeText = By.xpath("message-chat__details disabled-avatar static");
 	public static By btn_Search = By.xpath("SearchTerm");
 	public static By BubbleBox = By.xpath("//div[@class ='bubble-message sc-fjdhpX eqkGDJ']");
 	public static By Ele_Click_Sales = By.id("SearchTerm");

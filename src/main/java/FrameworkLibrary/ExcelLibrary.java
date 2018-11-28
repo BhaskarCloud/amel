@@ -7,8 +7,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -378,46 +383,58 @@ public class ExcelLibrary extends ListenerClass {
 		return StrValue;
 	} // line 383
 
-	public static String putActualResult(int Col, String value) // line 77 Column F
+	public static void putActualResult(int Col, String value, int i) // line 77 Column F
 	{
 		String StrValue = "";
 		try {
-			/*
-			 * StackTraceElement[] stackTraceElements =
-			 * Thread.currentThread().getStackTrace(); StackTraceElement stackTraceElement =
-			 * stackTraceElements[2]; String ClassName = stackTraceElement.getMethodName();
-			 */
+			
 			File fi = new File("RunManager.xlsx");
 			FileInputStream fin = new FileInputStream(fi);
 
 			XSSFWorkbook wrk = new XSSFWorkbook(fin);
 			XSSFSheet shet = wrk.getSheet("TestData1");
 
-			// Now create a row number and a cell where we want to enter a value.
-			// Here im about to write my test data in the cell B2. It reads Column B as 1
-			// and Row 2 as 1. Column and Row values start from 0.
-			// The below line of code will search for row number 2 and column number 2
-			// (i.e., B) and will create a space.
-			// The createCell() method is present inside Row class.
-			Row row = shet.createRow(1);
-			Cell cell = row.createCell(Col);
-
-			// Now we need to find out the type of the value we want to enter.
-			// If it is a string, we need to set the cell type as string
-			// if it is numeric, we need to set the cell type as number
+			Row row = shet.getRow(i);
+			Cell cell = row.createCell(Col);//row.getCell(Col);//
 
 			cell.setCellType(cell.CELL_TYPE_STRING);
 			cell.setCellValue(value);
 
+			System.out.println("excel write is--"+value);
 			FileOutputStream fos = new FileOutputStream(fi);
 			wrk.write(fos);
 			wrk.close();
 		} catch (Exception e) {
 
 		}
-		return StrValue;
+		//return StrValue;
 	}
+	public static void putResult(int Col, String value, int i) // line 77 Column F
+	{
+		String StrValue = "";
+		try {
+			
+			File fi = new File("RunManager.xlsx");
+			FileInputStream fin = new FileInputStream(fi);
 
+			XSSFWorkbook wrk = new XSSFWorkbook(fin);
+			XSSFSheet shet = wrk.getSheet("TestData1");
+
+			Row row = shet.getRow(i);
+			Cell cell = row.createCell(Col);//row.getCell(Col);//
+
+			cell.setCellType(cell.CELL_TYPE_STRING);
+			cell.setCellValue(value);
+
+			System.out.println("excel write is--"+value);
+			FileOutputStream fos = new FileOutputStream(fi);
+			wrk.write(fos);
+			wrk.close();
+		} catch (Exception e) {
+
+		}
+		//return StrValue;
+	}
 	public static String getExpectedResult(int Col) // line 77 Column E
 	{
 		String StrValue = "";
@@ -617,4 +634,33 @@ public class ExcelLibrary extends ListenerClass {
 		}
 		return StrValue;
 	}
+	/*public static void modifyExistingWorkbook() throws InvalidFormatException, IOException {
+	    // Obtain a workbook from the excel file
+	    Workbook workbook = WorkbookFactory.create(new File("RunManager.xlsx"));
+
+	    // Get Sheet at index 0
+	    Sheet sheet = workbook.getSheetAt(1);
+
+	    // Get Row at index 1
+	    Row row = sheet.getRow(1);
+	    
+	    // Get the Cell at index 2 from the above row
+	    Cell cell = row.getCell(5);
+
+	    // Create the cell if it doesn't exist
+	    if (cell == null)
+	        cell = row.createCell(5);
+
+	    // Update the cell's value
+	    cell.setCellType(CellType.STRING);
+	    cell.setCellValue("Updated Value");
+
+	    // Write the output to the file
+	    FileOutputStream fileOut = new FileOutputStream("RunManager.xlsx");
+	    workbook.write(fileOut);
+	    fileOut.close();
+
+	    // Closing the workbook
+	    workbook.close();
+	}*/
 }

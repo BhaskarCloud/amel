@@ -4,18 +4,18 @@ package FrameworkLibrary;
 import java.util.List;
 
 import org.openqa.selenium.WebElement;
-import org.xframium.page.StepStatus;
+//import org.xframium.page.StepStatus;
 
-import com.allstate.automation.amelia.pages.AmeliaPage;
-import com.allstate.automation.amelia.utility.ABOAbstractPage;
+//import com.allstate.automation.amelia.pages.AmeliaPage;
+//import com.allstate.automation.amelia.utility.ABOAbstractPage;
 
 
-public class AmeliaPageImpl extends ABOAbstractPage implements AmeliaPage
+public class AmeliaPageImpl //extends ABOAbstractPage implements AmeliaPage
 {
 	
 	public AmeliaPageImpl()	{}
 	
-	
+/*	
 
 	   
 	public void initializePage() {	}
@@ -156,5 +156,5 @@ public class AmeliaPageImpl extends ABOAbstractPage implements AmeliaPage
 			}
 			return false;	
 	}
-	
+	*/
 }

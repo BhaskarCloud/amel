@@ -26,13 +26,13 @@ public class WriteExcel {
 		//Here im about to write my test data in the cell B2. It reads Column B as 1 and Row 2 as 1. Column and Row values start from 0.
 		//The below line of code will search for row number 2 and column number 2 (i.e., B) and will create a space. 
                 //The createCell() method is present inside Row class.
-                Row row = sheet.createRow(1);
-		Cell cell = row.createCell(1);
+                Row row = sheet.getRow(2);
+		Cell cell = row.createCell(5);
 		//Now we need to find out the type of the value we want to enter. 
                 //If it is a string, we need to set the cell type as string 
                 //if it is numeric, we need to set the cell type as number
 		cell.setCellType(cell.CELL_TYPE_STRING);
-		cell.setCellValue("SoftwareTestingMaterial.com");
+		cell.setCellValue("SoftwareTesting");
 		FileOutputStream fos = new FileOutputStream("RunManager.xlsx"); 
 		workbook.write(fos);
 		fos.close();

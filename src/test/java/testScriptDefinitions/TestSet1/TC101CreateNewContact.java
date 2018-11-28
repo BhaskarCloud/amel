@@ -50,7 +50,7 @@ public class TC101CreateNewContact extends testScriptDefinitions.UserLibrary.Use
 		stepstatus = clickElement(pgHome.btn_UnlicensedService, driver);
 		plog = "Able to click  UnlicensedService button";
 		flog = "Unable to click  UnlicensedService button";
-		logEvent(stepstatus, plog, flog, driver, true); // True means take screenshot
+		logEvent(stepstatus, plog, flog, driver, false); // True means take screenshot
 		wait(5);
 
 		
@@ -71,10 +71,10 @@ public class TC101CreateNewContact extends testScriptDefinitions.UserLibrary.Use
 		logEvent(stepstatus, plog, flog, driver, false); // True means take screenshot
 		wait(5);
 		
-		stepstatus = getTextlistentry(pgConversation.BubbleBox, driver,responseNo);
+		stepstatus = getTextlistentry(pgConversation.BubbleBox, driver,responseNo,StrValue);
 		plog = "Able to get BubbleBox Msg -";
 		flog = "Unable to get BubbleBox Msg -";
-		logEvent(stepstatus, plog, flog, driver, true); // True means take screenshot
+		logEvent(stepstatus, plog, flog, driver, false); // True means take screenshot
 		wait(5);
 	}
 	public static String runEntrypointMulti(String FieldName, int col,WebDriver driver  ) 
@@ -96,7 +96,7 @@ public class TC101CreateNewContact extends testScriptDefinitions.UserLibrary.Use
 			Row rw = shet.getRow(1);
 			System.out.println("	Total row in test case are ---------" + shet.getLastRowNum());
 			for (int i = 0; i < shet.getLastRowNum(); i++) {
-				rw = shet.getRow(i + 1);
+				rw = shet.getRow(i+1 );
 				
 				if (rw == null || rw.getCell(1) == null)
 					continue;
@@ -109,8 +109,8 @@ public class TC101CreateNewContact extends testScriptDefinitions.UserLibrary.Use
 					StrValue = c1.getStringCellValue();
 				
 					System.out.println(i+"		EntryPoint (utterence) to test----------- " + StrValue);
-					pushEntryGetResponse( driver, StrValue,i ) ;
-	
+					pushEntryGetResponse( driver, StrValue,i+1 ) ;
+					GetResponsePushResult( driver, StrValue,i+1 ) ;
 			 }
 
 			wrk.close();
@@ -120,6 +120,11 @@ public class TC101CreateNewContact extends testScriptDefinitions.UserLibrary.Use
 		}
 		return StrValue;
 	}
+	private static void GetResponsePushResult(WebDriver driver, String strValue, int i) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	/*
 
 	String EntryPoint2 = "10";
@@ -168,6 +173,7 @@ public class TC101CreateNewContact extends testScriptDefinitions.UserLibrary.Use
 	 * "Unable to quit browser"; logEvent(stepstatus, plog, flog, driver, false);
 	 */
 
+	
 	/*
 	 * stepstatus = getTextandcompare(pgConversation.BubbleBox, 4, 5, driver); plog
 	 * = "Able to get BubbleBox Msg "; flog = "Unable to get BubbleBox Msg ";

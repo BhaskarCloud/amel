@@ -916,7 +916,7 @@ public class WebLibrary extends ExcelLibrary // line 33
 		try {
 			String StoreText = driver.findElement(by).getText();
 			System.out.println(StoreText);
-			putActualResult(col, StoreText);
+			putActualResult(col, StoreText,1);//1 is rownum
 
 			stepstatus = true;
 		} catch (Exception e) {
@@ -932,7 +932,7 @@ public class WebLibrary extends ExcelLibrary // line 33
 		try {
 			String StoreText = driver.findElement(by).getText();
 			System.out.println("---1235---" + StoreText);
-			putActualResult(ActualCol, StoreText);
+			putActualResult(ActualCol, StoreText,1);// 1 is rownum
 			if (getExpectedResult(ExpectedCol) == StoreText) {
 				stepstatus = true;
 				System.out.println("---1240---MATCH-- " + StoreText);
@@ -959,28 +959,33 @@ public class WebLibrary extends ExcelLibrary // line 33
 		}
 		return stepstatus;
 	}
-	protected static boolean getTextlistentry(By by, WebDriver driver, int responseNo) // line 68
+	protected static boolean getTextlistentry(By by, WebDriver driver, int responseNo,String StrValue) // line 68
 	{
 		boolean stepstatus = false;
 		try {int lastelementsize = 0;
 			By mySelector = By.xpath("//div[@class ='bubble-message sc-fjdhpX eqkGDJ']");
+			
 			List<WebElement> myElements = driver.findElements(mySelector);
+			String s = "";
 			for (WebElement e : myElements) {
-				System.out.println("		starting size is " +myElements.size());
-				//for (int a=1 ; a<myElements.size()-lastelementsize;a++)
-				//{
-				System.out.println("			"+responseNo+" ele is -   "+e.getText());
-				//System.out.println("				"+responseNo+" ele size is -   "+e.toString());
-				//System.out.println(responseNo+"  is -   "+myElements.get(myElements.size()-1).getText());
 				
+				System.out.println(responseNo+" "+e.getText());
+				s = s+e.getText();
 				
-			//	System.out.println(responseNo+"  is -   "+myElements.get(myElements.size()-lastelementsize-1+a).getText());
-				//System.out.println(e.getText());
-						
+				putActualResult(5,s,responseNo);		
+				
+				if (e.getText().contains(StrValue)) {
+					putActualResult(6,"PASS",responseNo);
+				}
+				else{
+					putActualResult(6,"FAIL",responseNo);
+				}
+				
+				System.out.println(responseNo+" 		"+s);
 				}
 				lastelementsize= lastelementsize+myElements.size();
 				System.out.println("		last size is " +lastelementsize);
-			//}
+			 
 			stepstatus = true;
 		} catch (Exception e) {
 			stepstatus = false;
