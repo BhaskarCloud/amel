@@ -4,11 +4,11 @@
   <parameter name="browser" value="chrome"/>
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="testScriptDefinitions.TestSet1.TC101CreateNewContact">
+      <class name="testScriptDefinitions.TestSet1.TC102byRows">
         <methods>
           <include name="TC101_CreateNewContact" invocation-numbers="0"/>
         </methods>
-      </class> <!-- testScriptDefinitions.TestSet1.TC101CreateNewContact -->
+      </class> <!-- testScriptDefinitions.TestSet1.TC102byRows -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

@@ -7,11 +7,11 @@
   <test thread-count="5" name="Test1(failed)">
     <parameter name="browser" value="ie"/>
     <classes>
-      <class name="testScriptDefinitions.TestSet1.TC101CreateNewContact">
+      <class name="testScriptDefinitions.TestSet1.TC102byRows">
         <methods>
           <include name="TC101_CreateNewContact" invocation-numbers="0"/>
         </methods>
-      </class> <!-- testScriptDefinitions.TestSet1.TC101CreateNewContact -->
+      </class> <!-- testScriptDefinitions.TestSet1.TC102byRows -->
     </classes>
   </test> <!-- Test1(failed) -->
 </suite> <!-- Failed suite [Suite] -->

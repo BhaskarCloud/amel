@@ -2,12 +2,12 @@
 <testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Suite" duration-ms="179851" started-at="2018-11-27T21:53:39Z" finished-at="2018-11-27T21:56:39Z">
+  <suite name="Suite" duration-ms="57438" started-at="2018-12-10T15:04:50Z" finished-at="2018-12-10T15:05:47Z">
     <groups>
     </groups>
-    <test name="Test1" duration-ms="179851" started-at="2018-11-27T21:53:39Z" finished-at="2018-11-27T21:56:39Z">
-      <class name="testScriptDefinitions.TestSet1.TC101CreateNewContact">
-        <test-method status="PASS" signature="TC101_CreateNewContact(java.lang.String)[pri:0, instance:testScriptDefinitions.TestSet1.TC101CreateNewContact@5f16132a]" name="TC101_CreateNewContact" duration-ms="179720" started-at="2018-11-27T21:53:39Z" finished-at="2018-11-27T21:56:39Z">
+    <test name="Test1" duration-ms="57438" started-at="2018-12-10T15:04:50Z" finished-at="2018-12-10T15:05:47Z">
+      <class name="testScriptDefinitions.TestSet1.TC102byRows">
+        <test-method status="PASS" signature="TC101_CreateNewContact(java.lang.String)[pri:0, instance:testScriptDefinitions.TestSet1.TC102byRows@6497b078]" name="TC101_CreateNewContact" duration-ms="57178" started-at="2018-12-10T15:04:50Z" finished-at="2018-12-10T15:05:47Z">
           <params>
             <param index="0">
               <value>
@@ -18,7 +18,7 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- TC101_CreateNewContact -->
-      </class> <!-- testScriptDefinitions.TestSet1.TC101CreateNewContact -->
+      </class> <!-- testScriptDefinitions.TestSet1.TC102byRows -->
     </test> <!-- Test1 -->
   </suite> <!-- Suite -->
 </testng-results>

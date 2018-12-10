@@ -46,10 +46,8 @@ public class ExcelLibrary extends ListenerClass {
 //			System.out.println("last row num is --39----" + shet.getLastRowNum());
 			for (int i = 0; i < shet.getLastRowNum(); i++) {
 				rw = shet.getRow(i + 1);
-//				System.out.println("---last cell num-43---" + i + "-- " + shet.getRow(i + 1).getLastCellNum()); // we
-																												// have
-																												// 4
-																												// coll
+//				System.out.println("---last cell num-43---" + i + "-- " + shet.getRow(i + 1).getLastCellNum()); // we have 4 coll
+				
 				if (rw == null || rw.getCell(1) == null)
 					continue;
 
@@ -383,24 +381,24 @@ public class ExcelLibrary extends ListenerClass {
 		return StrValue;
 	} // line 383
 
-	public static void putActualResult(int Col, String value, int i) // line 77 Column F
+	public static void putActualResult(int ColumNo, String value, int RowNo) // line 77 Column F
 	{
 		String StrValue = "";
 		try {
 			
-			File fi = new File("RunManager.xlsx");
+			File fi = new File("C:\\eclipse-workspace\\openallstate\\RunManager.xlsx");
 			FileInputStream fin = new FileInputStream(fi);
 
 			XSSFWorkbook wrk = new XSSFWorkbook(fin);
 			XSSFSheet shet = wrk.getSheet("TestData1");
 
-			Row row = shet.getRow(i);
-			Cell cell = row.createCell(Col);//row.getCell(Col);//
+			Row row = shet.getRow(RowNo);
+			Cell cell = row.createCell(ColumNo);//row.getCell(Col);//
 
 			cell.setCellType(cell.CELL_TYPE_STRING);
 			cell.setCellValue(value);
 
-			System.out.println("excel write is--"+value);
+			//System.out.println("excel write is--"+value);
 			FileOutputStream fos = new FileOutputStream(fi);
 			wrk.write(fos);
 			wrk.close();

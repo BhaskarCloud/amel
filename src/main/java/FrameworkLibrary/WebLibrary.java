@@ -32,6 +32,8 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import com.relevantcodes.extentreports.LogStatus;
 
+import ObjectRepository.pgConversation;
+
 public class WebLibrary extends ExcelLibrary // line 33
 {
 
@@ -882,6 +884,20 @@ public class WebLibrary extends ExcelLibrary // line 33
 		}
 		return stepstatus;
 	}
+	protected static String verifyElementEnableStatus(By by, WebDriver driver) // line 68
+	{
+		String ElementEnableStatus = null ;
+		try {
+			if (driver.findElement(by).isEnabled()) {
+				ElementEnableStatus = "ENABLED";
+			}else if(driver.findElement(by).isEnabled()== false ){
+				ElementEnableStatus = "NOT ENABLED";
+			}
+		} catch (Exception e) {
+			ElementEnableStatus = "NOT ENABLED";
+		}
+		return ElementEnableStatus ;
+	}
 
 	/**
 	 * Description : set Text in elemwnt And press Enter Method Name :
@@ -909,14 +925,36 @@ public class WebLibrary extends ExcelLibrary // line 33
 		}
 		return status;
 	}
+	protected static boolean setEntryPointAndEnter(By by, String Value, WebDriver driver) // line 283
+	{
+		boolean status = false;
+		try {
+			highlight(by, driver);
+			if (Value == null || driver.findElement(by).isEnabled() == false)
+			{
+				status = true;
+			}else {
+			driver.findElement(by).click();
+			driver.findElement(by).clear();
+			driver.findElement(by).sendKeys(Value);
+			// String webValue = driver.findElement(by).getAttribute("value");
+			driver.findElement(by).sendKeys(Keys.ENTER);
+			Thread.sleep(500);
 
+			status = true;
+			}
+		} catch (Exception e) {
+			status = false;
+		}
+		return status;
+	}
 	protected static boolean getTextandStore(By by, int col, WebDriver driver) // line 68
 	{
 		boolean stepstatus;
 		try {
 			String StoreText = driver.findElement(by).getText();
 			System.out.println(StoreText);
-			putActualResult(col, StoreText,1);//1 is rownum
+			putActualResult(col, StoreText, 1);// 1 is rownum
 
 			stepstatus = true;
 		} catch (Exception e) {
@@ -932,7 +970,7 @@ public class WebLibrary extends ExcelLibrary // line 33
 		try {
 			String StoreText = driver.findElement(by).getText();
 			System.out.println("---1235---" + StoreText);
-			putActualResult(ActualCol, StoreText,1);// 1 is rownum
+			putActualResult(ActualCol, StoreText, 1);// 1 is rownum
 			if (getExpectedResult(ExpectedCol) == StoreText) {
 				stepstatus = true;
 				System.out.println("---1240---MATCH-- " + StoreText);
@@ -950,7 +988,7 @@ public class WebLibrary extends ExcelLibrary // line 33
 			By mySelector = By.xpath("//div[@class ='bubble-message sc-fjdhpX eqkGDJ']");
 			List<WebElement> myElements = driver.findElements(mySelector);
 			for (WebElement e : myElements) {
-				System.out.println("ele 1 is -   "+myElements.get(1).getText());
+				System.out.println("ele 1 is -   " + myElements.get(1).getText());
 				System.out.println(e.getText());
 			}
 			stepstatus = true;
@@ -959,35 +997,251 @@ public class WebLibrary extends ExcelLibrary // line 33
 		}
 		return stepstatus;
 	}
-	protected static boolean getTextlistentry(By by, WebDriver driver, int responseNo,String StrValue) // line 68
+
+	public static boolean getTextlistentry1(By by, WebDriver driver, int responseNo, String resp) {
+		boolean stepstatus = false;
+		By mySelector = By.xpath("//div[@class ='bubble-message sc-fjdhpX eqkGDJ']");
+		List<WebElement> ameliaMessages = driver.findElements(mySelector);
+		wait(3);
+		String displayedResponse = "";
+		if (ameliaMessages == null)// cover case when List would be null to avoid exception
+		{
+			System.out.println("No Amelia responses were posted");
+			return stepstatus;
+		}
+
+		if (ameliaMessages.size() > 0) {
+
+			displayedResponse = ameliaMessages.get(ameliaMessages.size() - 1).getAttribute("innerText");
+			System.out.println("---------APimpl---70---Latest Amelias response displayed: ");
+			System.out.println(displayedResponse);
+
+			if (displayedResponse.contains(resp)) {
+				System.out.println("Amelia's response: " + resp + " was received");
+				return true;
+			} else {
+				System.out.println("Amelia's response: " + resp + " was NOT received");
+				return false;
+			}
+		} else {
+			System.out.println("No Amelia responses were posted");
+			return false;
+		}
+	}
+
+	protected static boolean getameliaMessagesList(By by, WebDriver driver, int responseNo, String resp) // line 68
 	{
 		boolean stepstatus = false;
-		try {int lastelementsize = 0;
-			By mySelector = By.xpath("//div[@class ='bubble-message sc-fjdhpX eqkGDJ']");
-			
-			List<WebElement> myElements = driver.findElements(mySelector);
-			String s = "";
-			for (WebElement e : myElements) {
-				
-				System.out.println(responseNo+" "+e.getText());
-				s = s+e.getText();
-				
-				putActualResult(5,s,responseNo);		
-				
-				if (e.getText().contains(StrValue)) {
-					putActualResult(6,"PASS",responseNo);
-				}
-				else{
-					putActualResult(6,"FAIL",responseNo);
-				}
-				
-				System.out.println(responseNo+" 		"+s);
-				}
-				lastelementsize= lastelementsize+myElements.size();
-				System.out.println("		last size is " +lastelementsize);
+		try {
 			 
+			List<WebElement> ameliaMessages = driver.findElements(by);
+			String displayedResponse;
+			
+			displayedResponse = ameliaMessages.get(responseNo).getAttribute("innerText");
+			 
+			putActualResult(5, displayedResponse, responseNo + 1);
+			putTimeStamp(responseNo);
+			if (displayedResponse.contains(resp)) {
+				putActualResult(6, "PASS", responseNo + 1);
+			} else {
+				putActualResult(6, "FAIL", responseNo + 1);
+			}
+		 
 			stepstatus = true;
 		} catch (Exception e) {
+			e.printStackTrace();
+			stepstatus = false;
+		}
+		return stepstatus;
+	}
+	protected static boolean getameliaMessagesListFull(By by, WebDriver driver, int responseNo, String resp) // line 68
+	{
+		boolean stepstatus = false;
+		try {
+			 
+			List<WebElement> ameliaMessages = driver.findElements(by);
+			String displayedResponse;
+			for (WebElement e : ameliaMessages) {
+			displayedResponse = e.getText();
+			}
+			
+		 
+			stepstatus = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			stepstatus = false;
+		}
+		return stepstatus;
+	}
+	public static boolean wasThisUserMessageJustPosted(String msg,WebDriver driver)
+	{
+		
+		String displayed="";
+		
+		List<WebElement> userMessages = driver.findElements(pgConversation.ALL_USER_CHAT_MESSAGES);
+		if(userMessages==null)//cover case when List would be null to avoid exception
+		{
+			System.out.println("No User messages were posted");
+		//	report.logStep("No User messages were posted");
+			return false;
+		}
+		System.out.println("------1070--"+userMessages.get(userMessages.size()-1).getAttribute("innerText"));
+		System.out.println("------1071------------------------------------"+msg);
+		if (userMessages.size() > 0)	
+		{
+				//get text of last user message
+				displayed = userMessages.get(userMessages.size()-1).getAttribute("innerText");
+				//verify contains wanted user message
+				if(displayed.contains(msg))
+				{
+					//report.logStep("User message: " + msg + " was posted");
+					System.out.println("User message: " + msg + " was posted");
+					return true;
+				}
+				else
+				{
+					//report.logStep("User message: " + msg + " was NOT posted");
+					System.out.println("User message: " + msg + " was NOT posted");
+					return false;
+				}
+		}
+		else	
+		{
+			//report.logStep("No User messages were posted");
+			System.out.println("No User messages were posted");
+			return false;
+		}
+	}
+	
+	
+	public static boolean wasThisAmeliaResponseJustReceived(String resp,WebDriver driver)
+	{
+		List<WebElement> ameliaMessages = driver.findElements(pgConversation.BubbleBox);
+    	//List<WebElement> ameliaMessages = getWebElements(AmeliaPage.ALL_AMELIA_CHAT_MESSAGES);
+//hold(3000);
+		wait(3);
+    	String displayedResponse = "";
+    	if(ameliaMessages==null)//cover case when List would be null to avoid exception
+		{
+			//report.logStep("No Amelia responses were posted");
+    		System.out.println("No Amelia responses were posted");
+			return false;
+		}
+    	
+		if (ameliaMessages.size() > 0)	{
+
+				displayedResponse = ameliaMessages.get(ameliaMessages.size()-1).getAttribute("innerText");
+				//report.logStep("---------APimpl---70---Latest Amelias response displayed: " + displayedResponse);
+				System.out.println("Latest Amelias response displayed: " + displayedResponse);
+				
+				if(displayedResponse.contains(resp))
+				{
+					//report.logStep("Amelia's response: " + resp + " was received");
+					System.out.println("Amelia's response: " + resp + " was received AS 1 RESPONSE");
+					return true;
+				}
+				else
+				{
+					//report.logStep("Amelia's response: " + resp + " was NOT received");
+					System.out.println("Amelia's response: " + resp + " was NOT received AS 1 RESPONSE");
+					return false;
+				}
+		}
+		else	
+		{
+			//report.logStep("No Amelia responses were posted");
+			System.out.println("No Amelia responses were posted");
+			
+			return false;
+		}
+	}
+	
+	
+	public static boolean wasThisAmeliaResponseReceivedInThisConversation(String resp,WebDriver driver)
+	{
+		List<WebElement> ameliaMessages = driver.findElements(pgConversation.BubbleBox);
+    	//List<WebElement> ameliaMessages = getWebElements(AmeliaPage.ALL_AMELIA_CHAT_MESSAGES);
+
+    	String displayedResponse = "";
+    	if(ameliaMessages==null)//cover case when List would be null to avoid exception
+		{
+			//report.logStep("No Amelia responses were posted");
+			System.out.println("No Amelia responses were posted");
+			return false;
+		}
+    	
+		if (ameliaMessages.size() > 0)	{
+			 for (int j = ameliaMessages.size()-1; j >= 0 ; j--)	
+			 {
+					displayedResponse = ameliaMessages.get(j).getAttribute("innerText");
+					//report.logStep("About to check Amelias response displayed at line "+j+": " + displayedResponse);
+					System.out.println("About to check Amelias response displayed at line "+j+": " + displayedResponse);
+					if(displayedResponse.contains(resp))
+					{
+						//report.logStep("Expected Amelia's response: " + resp + " was received");
+						System.out.println("Expected Amelia's response: " + resp + " was received AS 1+ RESPONSE");
+						return true;
+					}
+
+			 }
+			 //report.logStep("Expected Amelia's response: " + resp + " was NOT received");
+			 System.out.println("Expected Amelia's response: " + resp + " was NOT received AS 1+ RESPONSE");
+			 return false;
+				
+				
+		}
+		else	
+		{
+			//report.logStep("No Amelia responses were posted");
+			System.out.println("No Amelia responses were posted");
+			return false;
+		}
+	}
+	
+	
+	public boolean waitForSpecificResponseFromAmelia(String resp, int timeoutinSeconds,WebDriver driver)
+	{
+		List<WebElement> ameliaMessages = driver.findElements(pgConversation.BubbleBox);
+	   	//List<WebElement> ameliaMessages = getWebElements(AmeliaPage.ALL_AMELIA_CHAT_MESSAGES);
+
+    	String displayedResponse = "";
+    	boolean done = false;
+    	int intSecsPassed = 0;
+    	
+			while (!done)
+			{
+				if(wasThisAmeliaResponseJustReceived(resp,driver))
+				{
+					done = true;
+					//report.logStep("Amelia's response: " + resp + " was received in about "+intSecsPassed+" seconds");
+					System.out.println("Amelia's response: " + resp + " was received in about "+intSecsPassed+" seconds");
+					return true;
+				}
+				else
+				{
+					wait(1);
+					//hold(1000);
+					intSecsPassed = intSecsPassed+1;
+					if(timeoutinSeconds == intSecsPassed)
+					{
+						done = true;
+						//report.logStep("Amelia's response: " + resp + " was NOT received after waiting for "+intSecsPassed+" seconds");
+						System.out.println("Amelia's response: " + resp + " was NOT received after waiting for "+intSecsPassed+" seconds");
+					}
+				}
+			}
+			return false;	
+	}
+	protected static boolean putTimeStamp(int RowNo) // line 68
+	{
+		boolean stepstatus = false;
+		try {
+			
+			putActualResult(9, getTimeStamp(), RowNo + 1);
+
+			stepstatus = true;
+		} catch (Exception e) {
+			e.printStackTrace();
 			stepstatus = false;
 		}
 		return stepstatus;

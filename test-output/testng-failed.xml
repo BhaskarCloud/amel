@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite guice-stage="DEVELOPMENT" name="Failed suite [Suite]">
-  <listeners>
-    <listener class-name="FrameworkLibrary.ListenerClass"/>
-  </listeners>
-  <test thread-count="5" name="Test1(failed)">
-    <parameter name="browser" value="ie"/>
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
+  <parameter name="browser" value="chrome"/>
+  <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="testScriptDefinitions.TestSet1.TC101CreateNewContact">
+      <class name="testScriptDefinitions.TestSet1.TC102byRows">
         <methods>
           <include name="TC101_CreateNewContact" invocation-numbers="0"/>
         </methods>
-      </class> <!-- testScriptDefinitions.TestSet1.TC101CreateNewContact -->
+      </class> <!-- testScriptDefinitions.TestSet1.TC102byRows -->
     </classes>
-  </test> <!-- Test1(failed) -->
-</suite> <!-- Failed suite [Suite] -->
+  </test> <!-- Default test(failed) -->
+</suite> <!-- Failed suite [Default suite] -->
